@@ -18,13 +18,13 @@ async def handle_lifespan(scope: Scope, receive: Receive, send: Send):
         if message["type"] == "lifespan.startup":
             try:
                 print("Do some startup here!")
+                scope["state"].update({"msg": "Status tutaj"})
                 await send({"type": "lifespan.startup.complete"})
             except BaseException:
                 print("Startup Error")
                 await send({"type": "lifespan.startup.failed"})
                 break
         elif message["type"] == "lifespan.shutdown":
-
             try:
                 print("Do some shutdown here!")
                 await send({"type": "lifespan.shutdown.complete"})
@@ -40,10 +40,8 @@ async def handle_http(scope: Scope, receive: Receive, send: Send):
         if msg["type"] == "http.disconnect":
             return
         chunks.append(msg["body"])
-
         if not msg["more_body"]:
             break
-
     body = b"".join(chunks)
     print(body)
 
@@ -53,6 +51,7 @@ async def handle_http(scope: Scope, receive: Receive, send: Send):
         "headers": [(b"Content-Type", b"application/json")],
     }
     await send(response_start)
+    print("----------------------",scope["state"]["msg"])
     response_body = {
         "type": "http.response.body",
         "body": b"{'message':'body'}",

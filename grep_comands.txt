@@ -1,7 +1,7 @@
 curl http://127.0.0.1:8000/
 
-curl http://127.0.0.1:8000/path/to/resource?param1=value1&param2=value2
+curl "http://127.0.0.1:8000/path/to/resource?param1=value1&param2=value2"
 
 curl http://127.0.0.1:8000 -H "X-Custom-Header: MyValue"
 
-curl -X POST http://127.0.0.1:8000 -H "Content-Type: application/json" -d '{"key": "value"}'
+curl -X POST "http://127.0.0.1:8000" -H "Content-Type: application/json" -d '{"key": "value"}'
